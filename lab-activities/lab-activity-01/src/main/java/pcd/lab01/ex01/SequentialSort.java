@@ -12,6 +12,7 @@ public class SequentialSort {
 		log("Generating array.");
 		var v = genArray(VECTOR_SIZE);
 		var v2 = v;
+		var v3 = v;
 		log("Array generated.");
 		log("Sorting.");
 	
@@ -50,7 +51,100 @@ public class SequentialSort {
 		
 		log("Done concurrent, Time elapsed: " + ((t3 - t2) / 1_000_000) + " ms");
 		
+		int nThreads = Runtime.getRuntime().availableProcessors();
+		int chunkSize = v3.length / nThreads;
+		
+		int[] bounds = new int[nThreads + 1];
+		
+		SortWorker[] workers = new SortWorker[nThreads];
+		
+		long t4 = System.nanoTime();
+		
+		for(int i=0; i < nThreads; i++) {
+			int from = i * chunkSize;
+			
+			int to;
+			
+			if(i == nThreads - 1) {
+				to = v3.length;
+			} else {
+				to = (i+1)*chunkSize;
+			}
+			
+			workers[i] = new SortWorker(v, from, to , lock, counter);
+			workers[i].start();
+		}
+		
+		bounds[nThreads] = v3.length;
+		
+		synchronized(lock) {
+			while(counter.completed < nThreads) {
+				try {
+					lock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		mergeProgressive(v3, bounds, nThreads);
+		
+		long t5 = System.nanoTime();
+		log("Done concurrent multi, Time elapsed: " + ((t5 - t4) / 1_000_000) + " ms");
 		// dumpArray(v);
+	}
+	
+	private static void mergeProgressive(int[] v, int[] bounds, int nChunks) {
+		int currentChunks = nChunks;
+		while(currentChunks > 1) {
+			int newChunks = 0;
+			for(int i=0; i< currentChunks - 1; i += 2) {
+				int left = bounds[i];
+				int mid = bounds[i+1];
+				int right = bounds[i+2];
+				
+				mergeMulti(v, left, mid, right);
+				bounds[newChunks++] = left;
+			}
+			
+			if(currentChunks % 2 == 1) {
+				bounds[newChunks++] = bounds[currentChunks -1];
+			}
+			
+			bounds[newChunks] = bounds[currentChunks];
+			currentChunks = newChunks;
+		}
+	}
+	
+	private static void mergeMulti(int[] v,
+            int left,
+            int mid,
+            int right) {
+	
+		int[] temp = new int[right - left];
+		
+		int i = left;
+		int j = mid;
+		int k = 0;
+		
+		while (i < mid && j < right) {
+			if (v[i] <= v[j]) {
+				temp[k++] = v[i++];
+			} else {
+				temp[k++] = v[j++];
+			}
+		}
+		
+		while (i < mid) {
+			temp[k++] = v[i++];
+		}
+		
+		while (j < right) {
+			temp[k++] = v[j++];
+		}
+		
+		System.arraycopy(temp, 0, v, left, temp.length);
 	}
 	
 	private static void merge(int[] v, int mid) {
