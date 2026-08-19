@@ -14,8 +14,8 @@ public class Sketch01 {
 		 * - massive: 4500 small balls 
 		 */
 		
-		var boardConf = new MinimalBoardConf();
-		// var boardConf = new LargeBoardConf();
+		//var boardConf = new MinimalBoardConf();
+		 var boardConf = new LargeBoardConf();
 		// var boardConf = new MassiveBoardConf();
 		
 		Board board = new Board();

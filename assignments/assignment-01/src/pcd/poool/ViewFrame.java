@@ -68,6 +68,10 @@ public class ViewFrame extends JFrame {
 		    g2.setStroke(new BasicStroke(1));
     		g2.drawLine(ox,0,ox,oy*2);
     		g2.drawLine(0,oy,ox*2,oy);
+    		
+    		drawHole(g2, model.getPlayerHole(), Color.BLUE);
+		    drawHole(g2, model.getBotHole(), Color.RED);
+		    
     		g2.setColor(Color.BLACK);
     		
     		    g2.setStroke(new BasicStroke(1));
@@ -104,13 +108,27 @@ public class ViewFrame extends JFrame {
 	                g2.drawOval(x0 - radiusX,y0 - radiusY,radiusX*2,radiusY*2);
 	    		}
     		    
-    		    g2.setStroke(new BasicStroke(1));
-	    		g2.drawString("Num small balls: " + model.getBalls().size(), 20, 40);
-	    		g2.drawString("Frame per sec: " + model.getFramePerSec(), 20, 60);
+	    		g2.setStroke(new BasicStroke(1));
+			    g2.setColor(Color.BLUE);
+			    g2.drawString("Player: " + model.getPlayerScore(), 20, 200);
+			    g2.setColor(Color.RED);
+			    g2.drawString("Bot: " + model.getBotScore(), getWidth() - 80, 220);
+			    g2.setColor(Color.BLACK);
+			    g2.drawString("Num small balls: " + model.getBalls().size(), 20, 240);
+			    g2.drawString("Frame per sec: " + model.getFramePerSec(), 20, 260);
 
 	    		sync.notifyFrameRendered();
     		
         }
+        
+        private void drawHole(Graphics2D g2, Hole hole, Color color) {
+			var p = hole.pos();
+			int x = (int) (ox + p.x() * delta);
+			int y = (int) (oy - p.y() * delta);
+			int radius = (int) (hole.radius() * delta);
+			g2.setColor(color);
+			g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+		}
         
     }
 }
