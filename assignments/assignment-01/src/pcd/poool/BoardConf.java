@@ -8,5 +8,7 @@ public interface BoardConf {
 	
 	Ball getPlayerBall();
 	
+	Ball getBotBall();
+	
 	List<Ball> getSmallBalls();
 }

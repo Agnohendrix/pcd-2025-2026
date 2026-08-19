@@ -81,6 +81,7 @@ public class ViewFrame extends JFrame {
 	    		}
 	
     		    g2.setStroke(new BasicStroke(3));
+    		    g2.setColor(Color.BLUE);
 	    		var pb = model.getPlayerBall();
 	    		if (pb != null) {
 					var p1 = pb.pos();
@@ -88,6 +89,18 @@ public class ViewFrame extends JFrame {
 		            int y0 = (int)(oy - p1.y()*delta);
 	                int radiusX = (int)(pb.radius()*delta);
 	                int radiusY = (int)(pb.radius()*delta);
+	                g2.drawOval(x0 - radiusX,y0 - radiusY,radiusX*2,radiusY*2);
+	    		}
+	    		
+	    		g2.setStroke(new BasicStroke(3));
+	    		g2.setColor(Color.RED);
+	    		var bb = model.getBotBall();
+	    		if (bb != null) {
+					var p1 = bb.pos();
+		        	int x0 = (int)(ox + p1.x()*delta);
+		            int y0 = (int)(oy - p1.y()*delta);
+	                int radiusX = (int)(bb.radius()*delta);
+	                int radiusY = (int)(bb.radius()*delta);
 	                g2.drawOval(x0 - radiusX,y0 - radiusY,radiusX*2,radiusY*2);
 	    		}
     		    

@@ -6,6 +6,7 @@ public class Board {
 
     private List<Ball> balls;    
     private Ball playerBall;
+    private Ball botBall;
     private Boundary bounds;
     
     public Board(){} 
@@ -13,6 +14,7 @@ public class Board {
     public void init(BoardConf conf) {
     	balls = conf.getSmallBalls();    	
     	playerBall = conf.getPlayerBall(); 
+    	botBall = conf.getBotBall();
     	bounds = conf.getBoardBoundary();
     }
     
@@ -31,7 +33,10 @@ public class Board {
         }
     	for (var b: balls) {
     		Ball.resolveCollision(playerBall, b);
+            Ball.resolveCollision(botBall, b);
     	} 
+    	Ball.resolveCollision(botBall, playerBall);
+    	Ball.resolveCollision(botBall, botBall);
     	   	    	
     }
     
@@ -41,6 +46,10 @@ public class Board {
     
     public Ball getPlayerBall() {
     	return playerBall;
+    }
+    
+    public Ball getBotBall() {
+    	return botBall;
     }
     
     public  Boundary getBounds(){

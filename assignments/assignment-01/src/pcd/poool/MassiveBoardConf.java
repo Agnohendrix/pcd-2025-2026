@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassiveBoardConf implements BoardConf {
+	
+	@Override
+	public Ball getBotBall() {
+    	return new Ball(new P2d(0, 0), 0.06, 1, new V2d(0,0.5)); 
+	}
 
 	@Override
 	public Ball getPlayerBall() {
