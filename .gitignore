@@ -1,0 +1,30 @@
+# Java and Maven build output
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Java crash logs
+hs_err_pid*
+replay_pid*
+
+# IDE metadata
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# VS Code workspace metadata
+.vscode/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Local environment and temporary files
+.env
+*.swp
+*.swo
+*~
