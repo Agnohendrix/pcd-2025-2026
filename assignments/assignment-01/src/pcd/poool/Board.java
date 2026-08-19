@@ -21,6 +21,7 @@ public class Board {
     public void updateState(long dt) {
 
     	playerBall.updateState(dt, this);
+    	botBall.updateState(dt, this);
     	
     	for (var b: balls) {
     		b.updateState(dt, this);
@@ -36,7 +37,6 @@ public class Board {
             Ball.resolveCollision(botBall, b);
     	} 
     	Ball.resolveCollision(botBall, playerBall);
-    	Ball.resolveCollision(botBall, botBall);
     	   	    	
     }
     
