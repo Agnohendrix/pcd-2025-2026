@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
@@ -15,14 +17,31 @@ public class ViewFrame extends JFrame {
     private ViewModel model;
     private RenderSynch sync;
     
-    public ViewFrame(ViewModel model, int w, int h){
+    private Board board;
+    
+    public ViewFrame(ViewModel model, Board board, int w, int h){
     	this.model = model;
+    	this.board = board;
     	this.sync = new RenderSynch();
     	setTitle("Sketch 03");
         setSize(w,h + 25);
         setResizable(false);
         panel = new VisualiserPanel(w,h);
         getContentPane().add(panel);
+        
+        addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.VK_UP) {
+					new UpCommand().execute(board);
+				}
+			}
+		});
+        
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+		requestFocusInWindow();
+        
         addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent ev){
 				System.exit(-1);

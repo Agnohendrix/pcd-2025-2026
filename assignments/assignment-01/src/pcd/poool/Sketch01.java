@@ -22,7 +22,7 @@ public class Sketch01 {
 		board.init(boardConf);
 		
 		ViewModel viewModel = new ViewModel();
-		View view = new View(viewModel, 1200, 800);
+		View view = new View(viewModel, board, 1200, 800);
 						
 		viewModel.update(board, 0);			
 		view.render();
