@@ -34,6 +34,12 @@ public class ViewFrame extends JFrame {
 			public void keyPressed(KeyEvent event) {
 				if (event.getKeyCode() == KeyEvent.VK_UP) {
 					new UpCommand().execute(board);
+				} else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
+					new DownCommand().execute(board);
+				} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+					new LeftCommand().execute(board);
+				} else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+					new RightCommand().execute(board);
 				}
 			}
 		});
