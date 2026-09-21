@@ -17,11 +17,13 @@ public class ViewFrame extends JFrame {
     private ViewModel model;
     private RenderSynch sync;
     
+    private final CommandMonitor commandMonitor;
+    
     private Board board;
     
-    public ViewFrame(ViewModel model, Board board, int w, int h){
+    public ViewFrame(ViewModel model, CommandMonitor commandMonitor, int w, int h){
     	this.model = model;
-    	this.board = board;
+    	this.commandMonitor = commandMonitor;
     	this.sync = new RenderSynch();
     	setTitle("Sketch 03");
         setSize(w,h + 25);
@@ -33,13 +35,13 @@ public class ViewFrame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent event) {
 				if (event.getKeyCode() == KeyEvent.VK_UP) {
-					new UpCommand().execute(board);
+					commandMonitor.submit(new UpCommand());
 				} else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
-					new DownCommand().execute(board);
+					commandMonitor.submit(new DownCommand());
 				} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-					new LeftCommand().execute(board);
+					commandMonitor.submit(new LeftCommand());
 				} else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-					new RightCommand().execute(board);
+					commandMonitor.submit(new RightCommand());
 				}
 			}
 		});

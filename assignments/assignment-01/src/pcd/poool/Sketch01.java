@@ -21,8 +21,13 @@ public class Sketch01 {
 		Board board = new Board();
 		board.init(boardConf);
 		
+		CommandMonitor commandMonitor = new CommandMonitor();
+		
 		ViewModel viewModel = new ViewModel();
-		View view = new View(viewModel, board, 1200, 800);
+		View view = new View(viewModel, commandMonitor, 1200, 800);
+		
+		GameThread gameThread = new GameThread(board, commandMonitor, viewModel, view);
+		gameThread.start();
 						
 		viewModel.update(board, 0);			
 		view.render();
@@ -32,7 +37,7 @@ public class Sketch01 {
 		long t0 = System.currentTimeMillis();
 		long lastUpdateTime = System.currentTimeMillis();
 			
-		var pb = board.getPlayerBall();
+		var pb = board.getBotBall();
 		var rand = new Random(2);
 		var lastKickTime = t0;
 				
@@ -53,7 +58,7 @@ public class Sketch01 {
 			
 			long elapsed = System.currentTimeMillis() - lastUpdateTime;
 			lastUpdateTime = System.currentTimeMillis();			
-			board.updateState(elapsed);
+			//board.updateState(elapsed);
 			
 			/* render */
 			
@@ -64,8 +69,8 @@ public class Sketch01 {
 				framePerSec = (int)(nFrames*1000/dt);
 			}
 
-			viewModel.update(board, framePerSec);			
-			view.render();
+			//viewModel.update(board, framePerSec);			
+			//view.render();
 			
 		}
 	}
