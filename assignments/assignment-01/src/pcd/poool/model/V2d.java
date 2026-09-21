@@ -1,4 +1,4 @@
-package pcd.poool;
+package pcd.poool.model;
 
 
 public record V2d(double x, double y)  {

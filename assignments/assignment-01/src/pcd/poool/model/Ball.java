@@ -1,4 +1,4 @@
-package pcd.poool;
+package pcd.poool.model;
 
 public class Ball {
     

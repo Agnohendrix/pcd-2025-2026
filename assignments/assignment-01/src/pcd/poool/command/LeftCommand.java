@@ -1,4 +1,7 @@
-package pcd.poool;
+package pcd.poool.command;
+
+import pcd.poool.model.Board;
+import pcd.poool.model.V2d;
 
 public class LeftCommand implements GameCommand {
 

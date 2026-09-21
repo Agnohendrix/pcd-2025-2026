@@ -1,8 +1,6 @@
-package pcd.poool;
+package pcd.poool.model;
 
 import java.util.*;
-
-record Hole(P2d pos, Double radius) {}
 
 public class Board {
 

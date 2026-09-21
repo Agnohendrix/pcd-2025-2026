@@ -1,4 +1,4 @@
-package pcd.poool;
+package pcd.poool.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -11,6 +11,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
 
+import pcd.poool.command.DownCommand;
+import pcd.poool.command.LeftCommand;
+import pcd.poool.command.RightCommand;
+import pcd.poool.command.UpCommand;
+import pcd.poool.concurrent.CommandMonitor;
+import pcd.poool.model.Board;
+import pcd.poool.model.Hole;
+
 public class ViewFrame extends JFrame {
     
     private VisualiserPanel panel;
@@ -18,8 +26,6 @@ public class ViewFrame extends JFrame {
     private RenderSynch sync;
     
     private final CommandMonitor commandMonitor;
-    
-    private Board board;
     
     public ViewFrame(ViewModel model, CommandMonitor commandMonitor, int w, int h){
     	this.model = model;

@@ -1,7 +1,9 @@
-package pcd.poool;
+package pcd.poool.concurrent;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+
+import pcd.poool.command.GameCommand;
 
 public class CommandMonitor {
 	

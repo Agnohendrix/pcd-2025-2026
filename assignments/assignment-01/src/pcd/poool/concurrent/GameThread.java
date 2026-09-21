@@ -1,4 +1,9 @@
-package pcd.poool;
+package pcd.poool.concurrent;
+
+import pcd.poool.command.GameCommand;
+import pcd.poool.model.Board;
+import pcd.poool.view.View;
+import pcd.poool.view.ViewModel;
 
 public class GameThread extends Thread {
 

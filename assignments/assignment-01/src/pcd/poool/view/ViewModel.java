@@ -1,8 +1,10 @@
-package pcd.poool;
+package pcd.poool.view;
 
 import java.util.ArrayList;
 
-record BallViewInfo(P2d pos, double radius) {}
+import pcd.poool.model.Board;
+import pcd.poool.model.Hole;
+
 
 public class ViewModel {
 
