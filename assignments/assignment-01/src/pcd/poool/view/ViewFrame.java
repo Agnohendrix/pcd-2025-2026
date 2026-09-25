@@ -26,6 +26,7 @@ public class ViewFrame extends JFrame {
     private RenderSynch sync;
     
     private final CommandMonitor commandMonitor;
+	private Runnable closeHandler = () -> {};
     
     public ViewFrame(ViewModel model, CommandMonitor commandMonitor, int w, int h){
     	this.model = model;
@@ -34,6 +35,7 @@ public class ViewFrame extends JFrame {
     	setTitle("Sketch 03");
         setSize(w,h + 25);
         setResizable(false);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         panel = new VisualiserPanel(w,h);
         getContentPane().add(panel);
         
@@ -54,17 +56,17 @@ public class ViewFrame extends JFrame {
         
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
-		requestFocusInWindow();
         
         addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent ev){
-				System.exit(-1);
-			}
-			public void windowClosed(WindowEvent ev){
-				System.exit(-1);
+				closeHandler.run();
 			}
 		});
     }
+
+	public void setCloseHandler(Runnable closeHandler) {
+		this.closeHandler = closeHandler;
+	}
      
     public void render(){
 		long nf = sync.nextFrameToRender();
@@ -72,7 +74,7 @@ public class ViewFrame extends JFrame {
 		try {
 			sync.waitForFrameRendered(nf);
 		} catch (InterruptedException ex) {
-			ex.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
     }
         

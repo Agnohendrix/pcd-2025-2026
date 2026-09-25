@@ -29,9 +29,12 @@ public class Sketch01 {
 		CommandMonitor commandMonitor = new CommandMonitor();
 		
 		ViewModel viewModel = new ViewModel();
+		viewModel.update(board, 0);
 		View view = new View(viewModel, commandMonitor, 1200, 800);
 		
 		GameThread gameThread = new GameThread(board, commandMonitor, viewModel, view);
+		view.setCloseHandler(gameThread::stopGame);
+		view.show();
 		gameThread.start();
 	}
 }
