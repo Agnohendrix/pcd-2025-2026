@@ -67,6 +67,17 @@ public class ViewFrame extends JFrame {
 	public void setCloseHandler(Runnable closeHandler) {
 		this.closeHandler = closeHandler;
 	}
+
+	public void showDefeatMessageAndClose() {
+		SwingUtilities.invokeLater(() -> {
+			JOptionPane.showMessageDialog(
+					this,
+					"Hai perso: la palla del giocatore è entrata in buca.",
+					"Sconfitta",
+					JOptionPane.INFORMATION_MESSAGE);
+			dispose();
+		});
+	}
      
     public void render(){
 		long nf = sync.nextFrameToRender();

@@ -61,6 +61,11 @@ public class GameThread extends Thread {
 			
 			viewModel.update(board,  framesPerSecond);
 			view.render();
+			if (board.isPlayerBallInHole()) {
+				running = false;
+				view.showDefeatMessageAndClose();
+				break;
+			}
 		}
 	}
 	

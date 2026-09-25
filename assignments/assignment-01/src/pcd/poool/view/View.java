@@ -21,6 +21,10 @@ public class View {
 		frame.render();
 	}
 
+	public void showDefeatMessageAndClose() {
+		frame.showDefeatMessageAndClose();
+	}
+
 	public void setCloseHandler(Runnable closeHandler) {
 		frame.setCloseHandler(closeHandler);
 	}

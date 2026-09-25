@@ -13,6 +13,7 @@ public class Board {
     private Hole botHole;
     private int playerScore;
     private int botScore;
+    private boolean playerBallInHole;
     
     public Board(){} 
     
@@ -20,6 +21,7 @@ public class Board {
     	balls = conf.getSmallBalls();    	
     	playerBall = conf.getPlayerBall(); 
     	botBall = conf.getBotBall();
+        playerBallInHole = false;
     	bounds = conf.getBoardBoundary();
     	playerHole = new Hole(new P2d(bounds.x0() , bounds.y1() ), 0.3);
         botHole = new Hole(new P2d(bounds.x1() , bounds.y1() ), 0.3);
@@ -46,6 +48,9 @@ public class Board {
     	Ball.resolveCollision(botBall, playerBall);
     	
     	updateScores();
+        	if (isInHole(playerBall, playerHole) || isInHole(playerBall, botHole)) {
+        		playerBallInHole = true;
+        	}
     }
     
     public List<Ball> getBalls(){
@@ -78,6 +83,10 @@ public class Board {
 
     public int getBotScore() {
         return botScore;
+    }
+
+    public boolean isPlayerBallInHole() {
+        return playerBallInHole;
     }
     
     private void updateScores() {
