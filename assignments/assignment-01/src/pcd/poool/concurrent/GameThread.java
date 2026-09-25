@@ -63,7 +63,15 @@ public class GameThread extends Thread {
 			view.render();
 			if (board.isPlayerBallInHole()) {
 				running = false;
-				view.showDefeatMessageAndClose();
+				view.showGameOverMessageAndClose(
+						"Sconfitta",
+						"La palla del giocatore è entrata in buca.");
+				break;
+			} else if (board.isBotBallInHole()) {
+				running = false;
+				view.showGameOverMessageAndClose(
+						"Vittoria",
+						"La palla del bot è entrata in buca.");
 				break;
 			}
 		}

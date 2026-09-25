@@ -68,12 +68,12 @@ public class ViewFrame extends JFrame {
 		this.closeHandler = closeHandler;
 	}
 
-	public void showDefeatMessageAndClose() {
+	public void showGameOverMessageAndClose(String title, String message) {
 		SwingUtilities.invokeLater(() -> {
 			JOptionPane.showMessageDialog(
 					this,
-					"Hai perso: la palla del giocatore è entrata in buca.",
-					"Sconfitta",
+					message,
+					title,
 					JOptionPane.INFORMATION_MESSAGE);
 			dispose();
 		});

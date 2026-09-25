@@ -14,6 +14,7 @@ public class Board {
     private int playerScore;
     private int botScore;
     private boolean playerBallInHole;
+    private boolean botBallInHole;
     
     public Board(){} 
     
@@ -22,6 +23,7 @@ public class Board {
     	playerBall = conf.getPlayerBall(); 
     	botBall = conf.getBotBall();
         playerBallInHole = false;
+        botBallInHole = false;
     	bounds = conf.getBoardBoundary();
     	playerHole = new Hole(new P2d(bounds.x0() , bounds.y1() ), 0.3);
         botHole = new Hole(new P2d(bounds.x1() , bounds.y1() ), 0.3);
@@ -51,6 +53,9 @@ public class Board {
         	if (isInHole(playerBall, playerHole) || isInHole(playerBall, botHole)) {
         		playerBallInHole = true;
         	}
+            if (isInHole(botBall, playerHole) || isInHole(botBall, botHole)) {
+                botBallInHole = true;
+            }
     }
     
     public List<Ball> getBalls(){
@@ -87,6 +92,10 @@ public class Board {
 
     public boolean isPlayerBallInHole() {
         return playerBallInHole;
+    }
+
+    public boolean isBotBallInHole() {
+        return botBallInHole;
     }
     
     private void updateScores() {

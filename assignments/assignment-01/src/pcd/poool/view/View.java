@@ -21,8 +21,8 @@ public class View {
 		frame.render();
 	}
 
-	public void showDefeatMessageAndClose() {
-		frame.showDefeatMessageAndClose();
+	public void showGameOverMessageAndClose(String title, String message) {
+		frame.showGameOverMessageAndClose(title, message);
 	}
 
 	public void setCloseHandler(Runnable closeHandler) {
