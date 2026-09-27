@@ -16,7 +16,6 @@ import pcd.poool.command.LeftCommand;
 import pcd.poool.command.RightCommand;
 import pcd.poool.command.UpCommand;
 import pcd.poool.concurrent.CommandMonitor;
-import pcd.poool.model.Board;
 import pcd.poool.model.Hole;
 
 public class ViewFrame extends JFrame {

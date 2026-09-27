@@ -97,6 +97,10 @@ public class Board {
     public boolean isBotBallInHole() {
         return botBallInHole;
     }
+
+    public boolean areSmallBallsFinished() {
+        return balls.isEmpty();
+    }
     
     private void updateScores() {
         var iterator = balls.iterator();

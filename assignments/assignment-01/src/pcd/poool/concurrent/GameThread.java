@@ -73,6 +73,28 @@ public class GameThread extends Thread {
 						"Vittoria",
 						"La palla del bot è entrata in buca.");
 				break;
+			} else if (board.areSmallBallsFinished()) {
+				running = false;
+				String title;
+				String message;
+				if (board.getPlayerScore() > board.getBotScore()) {
+					title = "Vittoria";
+					message = "Hai vinto: non ci sono più palline."
+							+ " Punteggio " + board.getPlayerScore()
+							+ " - " + board.getBotScore() + ".";
+				} else if (board.getPlayerScore() < board.getBotScore()) {
+					title = "Sconfitta";
+					message = "Il bot ha vinto: non ci sono più palline."
+							+ " Punteggio " + board.getPlayerScore()
+							+ " - " + board.getBotScore() + ".";
+				} else {
+					title = "Pareggio";
+					message = "La partita è finita in pareggio: non ci sono più palline."
+							+ " Punteggio " + board.getPlayerScore()
+							+ " - " + board.getBotScore() + ".";
+				}
+				view.showGameOverMessageAndClose(title, message);
+				break;
 			}
 		}
 	}
