@@ -4,6 +4,7 @@ import pcd.poool.concurrent.CommandMonitor;
 import pcd.poool.concurrent.GameThread;
 import pcd.poool.model.Board;
 import pcd.poool.model.LargeBoardConf;
+import pcd.poool.model.MassiveBoardConf;
 import pcd.poool.model.MinimalBoardConf;
 import pcd.poool.view.View;
 import pcd.poool.view.ViewModel;
@@ -20,9 +21,9 @@ public class Sketch01 {
 		 * - massive: 4500 small balls 
 		 */
 		
-		var boardConf = new MinimalBoardConf();
+		//var boardConf = new MinimalBoardConf();
 		//var boardConf = new LargeBoardConf();
-		// var boardConf = new MassiveBoardConf();
+		 var boardConf = new MassiveBoardConf();
 		
 		Board board = new Board();
 		board.init(boardConf);

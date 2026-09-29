@@ -10,6 +10,9 @@ import pcd.poool.view.ViewModel;
 
 public class GameThread extends Thread {
 
+	private static final int BALL_WORKER_COUNT = Math.max(1,
+			Runtime.getRuntime().availableProcessors() - 1);
+
 	private final Board board;
 	private final CommandMonitor commandMonitor;
 	private final ViewModel viewModel;
@@ -28,6 +31,7 @@ public class GameThread extends Thread {
 	public void run() {
 		long lastUpdateTime = System.currentTimeMillis();
 		long startTime = lastUpdateTime;
+		long lastReportTime = startTime;
 		long lastBotKickTime = startTime;
 		int nFrames = 0;
 		
@@ -43,7 +47,7 @@ public class GameThread extends Thread {
 			if (botBall.getVel().abs() < 0.05 && botKickTime - lastBotKickTime > 2000) {
 				double angle = botRandom.nextDouble() * Math.PI * 0.25;
 				V2d velocity = new V2d(Math.cos(angle), Math.sin(angle)).mul(1.5);
-				botBall.kick(velocity);
+				//botBall.kick(velocity);
 				lastBotKickTime = botKickTime;
 			}
 			
@@ -51,7 +55,15 @@ public class GameThread extends Thread {
 			long elapsed = now - lastUpdateTime;
 			lastUpdateTime = now;
 			
-			board.updateState(elapsed);
+			try {
+				board.updateStateWithThreads(elapsed, BALL_WORKER_COUNT);
+			} catch (InterruptedException ex) {
+				if (!running) {
+					break;
+				}
+				Thread.currentThread().interrupt();
+				break;
+			}
 			
 			nFrames++;
 			long totalTime = now - startTime;
@@ -61,20 +73,36 @@ public class GameThread extends Thread {
 			
 			viewModel.update(board,  framesPerSecond);
 			view.render();
+			long reportTime = System.currentTimeMillis();
+			if (reportTime - lastReportTime >= 1000) {
+				var stats = board.getPerformanceStats();
+				System.out.printf(
+						"fps=%d, positions=%.2f ms, collision detection=%.2f ms, "
+								+ "collision application=%.2f ms, pairs=%d%n",
+						nFrames * 1000 / Math.max(1, reportTime - startTime),
+						stats.positionNanos() / 1_000_000.0,
+						stats.collisionDetectionNanos() / 1_000_000.0,
+						stats.collisionApplicationNanos() / 1_000_000.0,
+						stats.detectedCollisions());
+				lastReportTime = reportTime;
+			}
 			if (board.isPlayerBallInHole()) {
 				running = false;
+				board.stopBallWorkers();
 				view.showGameOverMessageAndClose(
 						"Sconfitta",
 						"La palla del giocatore è entrata in buca.");
 				break;
 			} else if (board.isBotBallInHole()) {
 				running = false;
+				board.stopBallWorkers();
 				view.showGameOverMessageAndClose(
 						"Vittoria",
 						"La palla del bot è entrata in buca.");
 				break;
 			} else if (board.areSmallBallsFinished()) {
 				running = false;
+				board.stopBallWorkers();
 				String title;
 				String message;
 				if (board.getPlayerScore() > board.getBotScore()) {
@@ -101,6 +129,7 @@ public class GameThread extends Thread {
 	
 	public void stopGame() {
 		running = false;
+		board.stopBallWorkers();
 		interrupt();
 	}
 }
